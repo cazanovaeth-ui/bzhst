@@ -720,6 +720,7 @@
 
         function getDateRange(period) {
             const today = new Date();
+            today.setHours(0, 0, 0, 0);
             let startDate, endDate;
 
             if (period === 'week') {
@@ -728,18 +729,24 @@
                 const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
                 startDate = new Date(today);
                 startDate.setDate(today.getDate() + diff);
+                startDate.setHours(0, 0, 0, 0);
                 endDate = new Date(startDate);
                 endDate.setDate(startDate.getDate() + 6);
+                endDate.setHours(0, 0, 0, 0);
             } else if (period === 'month') {
                 // Current month - full month
                 startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                startDate.setHours(0, 0, 0, 0);
                 endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                endDate.setHours(0, 0, 0, 0);
             } else if (period === 'quarter') {
                 // Current quarter (Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec)
                 const currentMonth = today.getMonth();
                 const quarterStartMonth = Math.floor(currentMonth / 3) * 3;
                 startDate = new Date(today.getFullYear(), quarterStartMonth, 1);
+                startDate.setHours(0, 0, 0, 0);
                 endDate = new Date(today.getFullYear(), quarterStartMonth + 3, 0);
+                endDate.setHours(0, 0, 0, 0);
             }
 
             return { startDate, endDate };
@@ -928,18 +935,27 @@
 
             // Find the first Monday
             const firstDay = new Date(startDate);
+            firstDay.setHours(0, 0, 0, 0);
             const dayOfWeek = firstDay.getDay();
             const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
             firstDay.setDate(firstDay.getDate() + diff);
+            firstDay.setHours(0, 0, 0, 0);
 
             // Generate calendar days
             const current = new Date(firstDay);
+            current.setHours(0, 0, 0, 0);
             const lastDay = new Date(endDate);
+            lastDay.setHours(0, 0, 0, 0);
             
             // Extend to end of week
             while (lastDay.getDay() !== 0) {
                 lastDay.setDate(lastDay.getDate() + 1);
             }
+            lastDay.setHours(0, 0, 0, 0);
+
+            // Store actual calendar range for opacity calculation
+            const calendarStart = new Date(firstDay);
+            const calendarEnd = new Date(lastDay);
 
             while (current <= lastDay) {
                 const dateStr = current.toISOString().split('T')[0];
@@ -947,6 +963,19 @@
                 const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                 const dayType = attendanceData[dateStr] || '';
                 const isPast = current < today;
+                
+                // Debug logging for February 13th
+                if (current.getDate() === 13 && current.getMonth() === 1) {
+                    console.log('DEBUG Feb 13:', {
+                        period: currentPeriod,
+                        dateStr: dateStr,
+                        dayType: dayType,
+                        isPast: isPast,
+                        current: current.toString(),
+                        today: today.toString(),
+                        attendanceData: attendanceData[dateStr]
+                    });
+                }
                 
                 let className = 'calendar-day';
                 let emoji = '';
@@ -971,6 +1000,7 @@
                     emoji = '📱';
                 }
 
+                // Use period boundaries for opacity (startDate/endDate), not calendar boundaries
                 const isInRange = current >= startDate && current <= endDate;
                 const opacity = isInRange ? '1' : '0.3';
 
@@ -984,6 +1014,7 @@
                 `;
 
                 current.setDate(current.getDate() + 1);
+                current.setHours(0, 0, 0, 0);
             }
 
             document.getElementById('calendarGrid').innerHTML = calendarHTML;
