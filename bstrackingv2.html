@@ -521,9 +521,15 @@
             <h1>🏢 Офис Тракер 3x2</h1>
             <p>Проследяване на хибридния работен модел</p>
             <p style="margin-top: 10px; color: #667eea; font-weight: 600; font-size: 0.95em;">Created by Bozhidar Stoykov</p>
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <button class="btn-info" onclick="openInfoModal()">
                     ℹ️ Информация - Как работи?
+                </button>
+                <button class="btn-info" onclick="openDataModal()">
+                    💾 Импорт/Експорт
+                </button>
+                <button class="btn-info" onclick="openShareModal()">
+                    📤 Изпрати си отчет
                 </button>
             </div>
         </div>
@@ -654,6 +660,88 @@
 
                 <div class="info-highlight" style="background: #d4edda; border-color: #4CAF50;">
                     <p style="margin: 0; font-weight: bold; color: #155724;">💡 Съвет: Маркирай само офис дните и почивките - останалото се брои автоматично като home office!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Management Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💾 Управление на данни</h2>
+                <button class="close-btn" onclick="closeDataModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <h3>📥 ЕКСПОРТ</h3>
+                    
+                    <button onclick="exportJSON()" style="width: 100%; padding: 15px; margin: 10px 0; background: #4CAF50; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📥 Изтегли JSON файл
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0 20px 0;">За backup и прехвърляне между устройства</p>
+                    
+                    <button onclick="exportCSV()" style="width: 100%; padding: 15px; margin: 10px 0; background: #2196F3; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📊 Изтегли CSV файл
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0;">За преглед и редакция в Excel</p>
+                </div>
+
+                <hr style="margin: 30px 0; border: none; border-top: 2px solid #e0e0e0;">
+
+                <div class="info-section">
+                    <h3>📤 ИМПОРТ</h3>
+                    
+                    <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importJSON(event)">
+                    <button onclick="document.getElementById('importFileInput').click()" style="width: 100%; padding: 15px; margin: 10px 0; background: #FF9800; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📤 Качи JSON файл
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0;">Възстанови данни от backup файл</p>
+                </div>
+
+                <div class="info-highlight" style="background: #e3f2fd; border-color: #2196F3; margin-top: 30px;">
+                    <p style="margin: 0; font-size: 0.95em; color: #0d47a1;">
+                        <strong>💡 Как да прехвърлиш данни между устройства:</strong><br>
+                        1️⃣ Изтегли JSON файл на компютъра<br>
+                        2️⃣ Изпрати го на себе си (email, Telegram, AirDrop)<br>
+                        3️⃣ Отвори приложението на другото устройство<br>
+                        4️⃣ Качи JSON файла → Готово! 🎉
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Report Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📤 Изпрати си отчет</h2>
+                <button class="close-btn" onclick="closeShareModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <button onclick="shareViaEmail()" style="width: 100%; padding: 15px; margin: 10px 0; background: #4CAF50; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📧 Изпрати на Email
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0 20px 0;">Отваря email клиент с готов отчет</p>
+                    
+                    <button onclick="shareViaTelegram()" style="width: 100%; padding: 15px; margin: 10px 0; background: #2196F3; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📱 Сподели в Telegram
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0 20px 0;">Отваря Telegram с готов отчет</p>
+                    
+                    <button onclick="copyReport()" style="width: 100%; padding: 15px; margin: 10px 0; background: #FF9800; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold;">
+                        📋 Копирай текст
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin: 5px 0;">Копира отчета в clipboard</p>
+                </div>
+
+                <div class="info-highlight" style="background: #e3f2fd; border-color: #2196F3; margin-top: 30px;">
+                    <p style="margin: 0; font-size: 0.95em; color: #0d47a1;">
+                        <strong>💡 Съвет:</strong><br>
+                        Използвай Telegram за бързо споделяне с мениджъра си или изпрати в "Saved Messages" за себе си!
+                    </p>
                 </div>
             </div>
         </div>
@@ -1040,11 +1128,294 @@
             document.getElementById('infoModal').style.display = 'none';
         }
 
+        function openDataModal() {
+            document.getElementById('dataModal').style.display = 'block';
+        }
+
+        function closeDataModal() {
+            document.getElementById('dataModal').style.display = 'none';
+        }
+
+        function openShareModal() {
+            document.getElementById('shareModal').style.display = 'block';
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        // Generate report text
+        function generateReport(format = 'full') {
+            const monthNames = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 
+                              'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'];
+            
+            const today = new Date();
+            const dateStr = `${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+            
+            // Calculate stats for all three periods
+            const periods = ['week', 'month', 'quarter'];
+            const stats = {};
+            
+            periods.forEach(period => {
+                const { startDate, endDate } = getDateRange(period);
+                const todayNorm = new Date();
+                todayNorm.setHours(0, 0, 0, 0);
+                
+                let officeDays = 0, homeDays = 0, vacationDays = 0, holidayDays = 0, autoHomeDays = 0;
+                
+                const current = new Date(startDate);
+                while (current <= endDate) {
+                    const dStr = current.toISOString().split('T')[0];
+                    const dayOfWeek = current.getDay();
+                    
+                    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                        const recordedType = attendanceData[dStr];
+                        if (recordedType === 'office') officeDays++;
+                        else if (recordedType === 'home') homeDays++;
+                        else if (recordedType === 'vacation') vacationDays++;
+                        else if (recordedType === 'holiday') holidayDays++;
+                        else if (current < todayNorm) autoHomeDays++;
+                    }
+                    current.setDate(current.getDate() + 1);
+                }
+                
+                const totalHomeDays = homeDays + autoHomeDays;
+                const totalWorkingDays = getWorkingDaysInRange(startDate, endDate);
+                const availableWorkingDays = totalWorkingDays - vacationDays - holidayDays;
+                const targetOfficeDays = Math.round(availableWorkingDays * 0.6);
+                const compliancePercent = availableWorkingDays > 0 ? (officeDays / availableWorkingDays * 100) : 0;
+                const remainingOfficeDays = Math.max(0, targetOfficeDays - officeDays);
+                
+                let periodLabel = '';
+                if (period === 'week') {
+                    periodLabel = `${startDate.getDate()} ${monthNames[startDate.getMonth()].substring(0,3)} - ${endDate.getDate()} ${monthNames[endDate.getMonth()].substring(0,3)}`;
+                } else if (period === 'month') {
+                    periodLabel = monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear();
+                } else {
+                    const quarterNum = Math.floor(startDate.getMonth() / 3) + 1;
+                    periodLabel = `Q${quarterNum} ${startDate.getFullYear()}`;
+                }
+                
+                stats[period] = {
+                    label: periodLabel,
+                    officeDays,
+                    totalHomeDays,
+                    vacationDays,
+                    holidayDays,
+                    compliancePercent,
+                    remainingOfficeDays
+                };
+            });
+            
+            // Generate report based on format
+            if (format === 'full') {
+                // Full Telegram format
+                return `📊 ОФИС ТРАКЕР - ОТЧЕТ
+━━━━━━━━━━━━━━━━━━━━━━━
+
+📅 Дата: ${dateStr}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📍 СЕДМИЧНА СТАТИСТИКА
+(${stats.week.label})
+
+🏢 Офис: ${stats.week.officeDays} дни
+🏠 Home Office: ${stats.week.totalHomeDays} дни
+🎯 Комплайънс: ${Math.round(stats.week.compliancePercent)}% ${stats.week.compliancePercent >= 60 ? '✅' : '⚠️'}
+⚡ Остават: ${stats.week.remainingOfficeDays === 0 ? '0 дни (цел постигната!)' : 'още ' + stats.week.remainingOfficeDays + ' офис дни'}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📍 МЕСЕЧНА СТАТИСТИКА
+(${stats.month.label})
+
+🏢 Офис: ${stats.month.officeDays} дни
+🏠 Home Office: ${stats.month.totalHomeDays} дни
+🌴 Почивка: ${stats.month.vacationDays} ${stats.month.vacationDays === 1 ? 'ден' : 'дни'}
+🎯 Комплайънс: ${Math.round(stats.month.compliancePercent)}% ${stats.month.compliancePercent >= 60 ? '✅' : '⚠️'}
+⚡ Остават: ${stats.month.remainingOfficeDays === 0 ? '0 дни (цел постигната!)' : 'още ' + stats.month.remainingOfficeDays + ' офис дни'}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📍 ТРИМЕСЕЧНА СТАТИСТИКА
+(${stats.quarter.label})
+
+🏢 Офис: ${stats.quarter.officeDays} дни
+🏠 Home Office: ${stats.quarter.totalHomeDays} дни
+🌴 Почивка: ${stats.quarter.vacationDays} ${stats.quarter.vacationDays === 1 ? 'ден' : 'дни'}
+🎉 Празници: ${stats.quarter.holidayDays} ${stats.quarter.holidayDays === 1 ? 'ден' : 'дни'}
+🎯 Комплайънс: ${Math.round(stats.quarter.compliancePercent)}% ${stats.quarter.compliancePercent >= 60 ? '✅' : '⚠️'}
+⚡ Остават: ${stats.quarter.remainingOfficeDays === 0 ? '0 дни (комплайънт!)' : 'още ' + stats.quarter.remainingOfficeDays + ' офис дни'}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+Генерирано от: Офис Тракер 3x2
+by Bozhidar Stoykov`;
+            } else {
+                // Ultra compact email format
+                const todayShort = `${today.getDate()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getFullYear()).substring(2)}`;
+                
+                return `📊 Офис Тракер ${todayShort}
+
+СЕДМИЦА: ${Math.round(stats.week.compliancePercent)}% ${stats.week.compliancePercent >= 60 ? '✅' : '⚠️'}
+Офис ${stats.week.officeDays}д, Home ${stats.week.totalHomeDays}д → Остават ${stats.week.remainingOfficeDays}д
+
+МЕСЕЦ: ${Math.round(stats.month.compliancePercent)}% ${stats.month.compliancePercent >= 60 ? '✅' : '⚠️'}
+Офис ${stats.month.officeDays}д, Home ${stats.month.totalHomeDays}д, Почивка ${stats.month.vacationDays}д → Остават ${stats.month.remainingOfficeDays}д
+
+Q1: ${Math.round(stats.quarter.compliancePercent)}% ${stats.quarter.compliancePercent >= 60 ? '✅' : '⚠️'}
+Офис ${stats.quarter.officeDays}д, Home ${stats.quarter.totalHomeDays}д, Почивка ${stats.quarter.vacationDays}д → Остават ${stats.quarter.remainingOfficeDays}д
+
+━━━━━━━━━━━━
+Офис Тракер 3x2 by Bozhidar Stoykov`;
+            }
+        }
+
+        // Share via email
+        function shareViaEmail() {
+            const report = generateReport('full');  // Changed from 'compact' to 'full'
+            const subject = encodeURIComponent('Офис Тракер - Отчет ' + new Date().toISOString().split('T')[0]);
+            const body = encodeURIComponent(report);
+            window.open(`mailto:?subject=${subject}&body=${body}`, '_self');
+            closeShareModal();
+        }
+
+        // Share via Telegram
+        function shareViaTelegram() {
+            const report = generateReport('full');
+            const text = encodeURIComponent(report);
+            window.open(`https://t.me/share/url?text=${text}`, '_blank');
+            closeShareModal();
+        }
+
+        // Copy report to clipboard
+        function copyReport() {
+            const report = generateReport('full');
+            navigator.clipboard.writeText(report).then(() => {
+                alert('✅ Отчетът е копиран в clipboard!');
+                closeShareModal();
+            }).catch(err => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = report;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Отчетът е копиран в clipboard!');
+                closeShareModal();
+            });
+        }
+
+        // Export data as JSON
+        function exportJSON() {
+            const dataStr = JSON.stringify(attendanceData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const today = new Date().toISOString().split('T')[0];
+            const filename = `office-tracker-backup-${today}.json`;
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ Данните са изтеглени като ${filename}`);
+        }
+
+        // Export data as CSV
+        function exportCSV() {
+            let csv = 'Дата,Тип\n';
+            
+            const sortedDates = Object.keys(attendanceData).sort();
+            sortedDates.forEach(date => {
+                const typeMap = {
+                    'office': 'Офис',
+                    'home': 'Home Office',
+                    'vacation': 'Почивка/Болничен',
+                    'holiday': 'Празник'
+                };
+                const type = typeMap[attendanceData[date]] || attendanceData[date];
+                csv += `${date},${type}\n`;
+            });
+            
+            const dataBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            
+            const today = new Date().toISOString().split('T')[0];
+            const filename = `office-tracker-${today}.csv`;
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ Данните са изтеглени като ${filename}`);
+        }
+
+        // Import data from JSON
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Count existing and new records
+                    const existingCount = Object.keys(attendanceData).length;
+                    const importCount = Object.keys(importedData).length;
+                    
+                    if (existingCount > 0) {
+                        const merge = confirm(
+                            `Намерени са ${existingCount} съществуващи записа.\n\n` +
+                            `Импортираш ${importCount} записа от файла.\n\n` +
+                            `Натисни OK за ДОБАВЯНЕ (merge)\n` +
+                            `Натисни Cancel за ПРЕЗАПИСВАНЕ (replace)`
+                        );
+                        
+                        if (!merge) {
+                            // Replace all data
+                            attendanceData = importedData;
+                        } else {
+                            // Merge data (imported data overwrites conflicts)
+                            attendanceData = { ...attendanceData, ...importedData };
+                        }
+                    } else {
+                        // No existing data, just import
+                        attendanceData = importedData;
+                    }
+                    
+                    localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+                    updateDisplay();
+                    closeDataModal();
+                    
+                    alert(`✅ Успешно импортирани ${importCount} записа!`);
+                } catch (error) {
+                    alert('❌ Грешка при четене на файла! Моля използвай валиден JSON файл.');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset input so same file can be selected again
+            event.target.value = '';
+        }
+
         // Close modal when clicking outside of it
         window.onclick = function(event) {
-            const modal = document.getElementById('infoModal');
-            if (event.target == modal) {
+            const infoModal = document.getElementById('infoModal');
+            const dataModal = document.getElementById('dataModal');
+            const shareModal = document.getElementById('shareModal');
+            if (event.target == infoModal) {
                 closeInfoModal();
+            } else if (event.target == dataModal) {
+                closeDataModal();
+            } else if (event.target == shareModal) {
+                closeShareModal();
             }
         }
     </script>
