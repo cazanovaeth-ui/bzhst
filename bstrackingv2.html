@@ -674,7 +674,10 @@
                 return;
             }
 
-            const date = new Date(dateInput + 'T00:00:00');
+            // Parse date in local timezone
+            const parts = dateInput.split('-');
+            const date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            date.setHours(0, 0, 0, 0);
             const dayOfWeek = date.getDay();
             
             // Check if weekend
@@ -692,10 +695,12 @@
             // Move to next working day
             const nextDate = new Date(date);
             nextDate.setDate(nextDate.getDate() + 1);
+            nextDate.setHours(0, 0, 0, 0);
             
             // Skip weekends
             while (nextDate.getDay() === 0 || nextDate.getDay() === 6) {
                 nextDate.setDate(nextDate.getDate() + 1);
+                nextDate.setHours(0, 0, 0, 0);
             }
             
             document.getElementById('dateInput').valueAsDate = nextDate;
